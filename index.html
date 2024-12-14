@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced CV Creator</title>
+    <title>Gen Z CV Creator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
         }
         .form-group {
             margin-bottom: 15px;
@@ -16,11 +22,19 @@
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
         input, textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             box-sizing: border-box;
+        }
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
         }
         button {
             margin-top: 10px;
@@ -28,6 +42,7 @@
             background-color: #007bff;
             color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
@@ -37,48 +52,71 @@
             margin-top: 20px;
             border: 1px solid #ddd;
             padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
         }
-        .dynamic-section {
+        .guidelines {
             margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e9f7ff;
+            border-left: 5px solid #007bff;
+        }
+        .guidelines ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .guidelines li {
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Enhanced CV Creator</h1>
+    <h1>Create Your CV - Designed for Gen Z</h1>
+    <div class="guidelines">
+        <strong>Guidelines to stand out:</strong>
+        <ul>
+            <li>Keep it concise and focus on achievements.</li>
+            <li>Highlight your digital skills and adaptability.</li>
+            <li>Use a professional email address and up-to-date LinkedIn profile.</li>
+        </ul>
+    </div>
     <form id="cv-form">
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name">
+            <label for="name">Name <span style="color: red;">*</span></label>
+            <input type="text" id="name" placeholder="E.g., Taylor Smith">
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" id="email">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="E.g., 123 Sunshine Blvd">
         </div>
         <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="text" id="phone">
+            <label for="city">City</label>
+            <input type="text" id="city" placeholder="E.g., New York">
         </div>
         <div class="form-group">
-            <label for="summary">Summary</label>
-            <textarea id="summary" rows="3"></textarea>
+            <label for="state">State</label>
+            <input type="text" id="state" placeholder="E.g., NY">
         </div>
-
-        <!-- Dynamic Sections -->
-        <div id="work-experience-section" class="dynamic-section">
-            <h3>Work Experience</h3>
-            <button type="button" onclick="addWorkExperience()">Add Work Experience</button>
+        <div class="form-group">
+            <label for="zip">Zip Code</label>
+            <input type="text" id="zip" placeholder="E.g., 10001">
         </div>
-
-        <div id="education-section" class="dynamic-section">
-            <h3>Education</h3>
-            <button type="button" onclick="addEducation()">Add Education</button>
+        <div class="form-group">
+            <label for="phone">Phone <span style="color: red;">*</span></label>
+            <input type="text" id="phone" placeholder="E.g., (555) 555-5555">
         </div>
-
-        <div id="skills-section" class="dynamic-section">
-            <h3>Skills</h3>
-            <button type="button" onclick="addSkill()">Add Skill</button>
+        <div class="form-group">
+            <label for="email">Email <span style="color: red;">*</span></label>
+            <input type="text" id="email" placeholder="E.g., taylor.smith@email.com">
         </div>
-
+        <div class="form-group">
+            <label for="linkedin">LinkedIn</label>
+            <input type="text" id="linkedin" placeholder="E.g., linkedin.com/in/taylorsmith">
+        </div>
+        <div class="form-group">
+            <label for="summary">Professional Summary</label>
+            <textarea id="summary" rows="5" placeholder="Briefly summarize your experience, skills, and what makes you unique."></textarea>
+        </div>
         <button type="button" onclick="generatePreview()">Generate Preview</button>
         <button type="button" id="downloadButton" style="display:none;" onclick="downloadPDF()">Download PDF</button>
     </form>
@@ -89,44 +127,6 @@
 
     <script>
         let pdf;
-
-        function addWorkExperience() {
-            const container = document.createElement('div');
-            container.classList.add('form-group');
-            container.innerHTML = `
-                <label>Job Title</label>
-                <input type="text" class="work-title">
-                <label>Company</label>
-                <input type="text" class="work-company">
-                <label>Description</label>
-                <textarea class="work-description" rows="2"></textarea>
-            `;
-            document.getElementById('work-experience-section').appendChild(container);
-        }
-
-        function addEducation() {
-            const container = document.createElement('div');
-            container.classList.add('form-group');
-            container.innerHTML = `
-                <label>Degree</label>
-                <input type="text" class="edu-degree">
-                <label>Institution</label>
-                <input type="text" class="edu-institution">
-                <label>Year</label>
-                <input type="text" class="edu-year">
-            `;
-            document.getElementById('education-section').appendChild(container);
-        }
-
-        function addSkill() {
-            const container = document.createElement('div');
-            container.classList.add('form-group');
-            container.innerHTML = `
-                <label>Skill</label>
-                <input type="text" class="skill-name">
-            `;
-            document.getElementById('skills-section').appendChild(container);
-        }
 
         function generatePreview() {
             const { jsPDF } = window.jspdf;
@@ -150,7 +150,13 @@
                 let currentY = addText(title, 14, true, y);
                 if (Array.isArray(content)) {
                     content.forEach(item => {
-                        currentY = addText(item, 12, false, currentY);
+                        if (typeof item === 'string') {
+                            currentY = addText(item, 12, false, currentY);
+                        } else if (typeof item === 'object') {
+                            Object.entries(item).forEach(([key, value]) => {
+                                currentY = addText(`${key}: ${value}`, 12, false, currentY);
+                            });
+                        }
                     });
                 } else {
                     currentY = addText(content, 12, false, currentY);
@@ -160,57 +166,24 @@
 
             // Extract form data
             const name = document.getElementById('name').value || 'Name not provided';
-            const email = document.getElementById('email').value || '';
+            const address = document.getElementById('address').value || '';
+            const city = document.getElementById('city').value || '';
+            const state = document.getElementById('state').value || '';
+            const zip = document.getElementById('zip').value || '';
             const phone = document.getElementById('phone').value || '';
+            const email = document.getElementById('email').value || '';
+            const linkedin = document.getElementById('linkedin').value || '';
             const summary = document.getElementById('summary').value || 'No summary provided';
 
             // Add sections to PDF
             yPos = addText(`Name: ${name}`, 16, true, yPos);
-            yPos = addSection('Contact Information', [`Email: ${email}`, `Phone: ${phone}`], yPos);
+            yPos = addSection('Contact Information', [
+                `Address: ${address}, ${city}, ${state} ${zip}`,
+                `Phone: ${phone}`,
+                `Email: ${email}`,
+                `LinkedIn: ${linkedin}`,
+            ], yPos);
             yPos = addSection('Summary', summary, yPos);
-
-            // Work Experience
-            const workExperiences = document.querySelectorAll('#work-experience-section .form-group');
-            if (workExperiences.length > 1) {
-                const workDetails = [];
-                workExperiences.forEach((work, index) => {
-                    if (index > 0) { // Skip "Add Work Experience" button
-                        const title = work.querySelector('.work-title').value;
-                        const company = work.querySelector('.work-company').value;
-                        const description = work.querySelector('.work-description').value;
-                        workDetails.push(`${title} at ${company}: ${description}`);
-                    }
-                });
-                yPos = addSection('Work Experience', workDetails, yPos);
-            }
-
-            // Education
-            const educations = document.querySelectorAll('#education-section .form-group');
-            if (educations.length > 1) {
-                const eduDetails = [];
-                educations.forEach((edu, index) => {
-                    if (index > 0) { // Skip "Add Education" button
-                        const degree = edu.querySelector('.edu-degree').value;
-                        const institution = edu.querySelector('.edu-institution').value;
-                        const year = edu.querySelector('.edu-year').value;
-                        eduDetails.push(`${degree}, ${institution} (${year})`);
-                    }
-                });
-                yPos = addSection('Education', eduDetails, yPos);
-            }
-
-            // Skills
-            const skills = document.querySelectorAll('#skills-section .form-group');
-            if (skills.length > 1) {
-                const skillDetails = [];
-                skills.forEach((skill, index) => {
-                    if (index > 0) { // Skip "Add Skill" button
-                        const skillName = skill.querySelector('.skill-name').value;
-                        skillDetails.push(skillName);
-                    }
-                });
-                yPos = addSection('Skills', skillDetails, yPos);
-            }
 
             // Render PDF preview
             const previewContainer = document.getElementById('pdf-preview');
@@ -228,7 +201,7 @@
 
         function downloadPDF() {
             if (pdf) {
-                pdf.save('Enhanced_CV.pdf');
+                pdf.save('CV.pdf');
             } else {
                 alert('Generate the preview first!');
             }
