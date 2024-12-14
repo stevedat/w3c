@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Creator</title>
+    <style>
+        /* ... (CSS from previous response) */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CV Creator</h1>
+        <p>Fill in the information below to generate your CV.</p>
 
+        <div class="section">
+            <h2>Personal Information</h2>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+            <div class="input-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="input-group">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+                <label for="zip">Zip Code:</label>
+                <input type="text" id="zip" name="zip" required>
+            </div>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="linkedin">LinkedIn Profile URL:</label>
+            <input type="text" id="linkedin" name="linkedin">
+        </div>
+
+        <div class="section">
+            <h2>Summary/Objective</h2>
+            <textarea id="summary" name="summary" required></textarea>
+        </div>
+
+        <div class="section">
+            <h2>Experience</h2>
+            <div id="experience-container">
+                <div class="experience-item">
+                    <label for="job-title-0">Job Title:</label>
+                    <input type="text" id="job-title-0" name="job-title[]">
+                    <label for="employer-0">Employer:</label>
+                    <input type="text" id="employer-0" name="employer[]">
+                    <div class="input-group">
+                        <label for="start-date-0">Start Date:</label>
+                        <input type="month" id="start-date-0" name="start-date[]">
+                        <label for="end-date-0">End Date:</label>
+                        <input type="month" id="end-date-0" name="end-date[]">
+                    </div>
+                    <label for="job-description-0">Job Description:</label>
+                    <textarea id="job-description-0" name="job-description[]"></textarea>
+                </div>
+            </div>
+            <button type="button" onclick="addExperience()">Add Experience</button>
+        </div>
+
+        <div class="section">
+            <h2>Education</h2>
+            <div id="education-container">
+                <div class="education-item">
+                    <label for="degree-0">Degree:</label>
+                    <input type="text" id="degree-0" name="degree[]">
+                    <label for="university-0">University:</label>
+                    <input type="text" id="university-0" name="university[]">
+                    <div class="input-group">
+                        <label for="graduation-date-0">Graduation Date:</label>
+                        <input type="month" id="graduation-date-0" name="graduation-date[]">
+                    </div>
+                </div>
+            </div>
+            <button type="button" onclick="addEducation()">Add Education</button>
+        </div>
+
+        <button id="generateButton" onclick="generateCV()">Generate CV</button>
+        <button id="downloadButton" onclick="downloadPDF()">Download PDF</button>
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let experienceCount = 1;
+        let educationCount = 1;
+
+        function addExperience() {
+            // ... (addExperience function from previous response)
+        }
+
+        function addEducation() {
+            // ... (addEducation function from previous response)
+        }
+
+        function generateCV() {
+            // No longer needed for PDF Generation only.
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            let yPos = 10;
+            const margin = 10;
+
+            const addText = (text, size = 12, bold = false) => {
+                // ... (addText function from previous response)
+            };
+
+            const addSection = (title, items) => {
+                // ... (addSection function from previous response)
+            };
+
+            const personalInfo = {
+                'Name': document.getElementById('name').value,
+                'Address': document.getElementById('address').value + ", " + document.getElementById('city').value + ", " + document.getElementById('state').value + " "+ document.getElementById('zip').value,
+                'Phone': document.getElementById('phone').value,
+                'Email': document.getElementById('email').value,
+                'LinkedIn': document.getElementById('linkedin').value
+            };
+
+            const experienceItems = [];
+            for (let i = 0; i < experienceCount; i++) {
+                if (document.getElementById(`job-title-${i}`)) {
+                    experienceItems.push({
+                        'Job Title': document.getElementById(`job-title-${i}`).value,
+                        'Employer': document.getElementById(`employer-${i}`).value,
+                        'Dates': document.getElementById(`start-date-${i}`).value + " - " + document.getElementById(`end-date-${i}`).value,
+                        'Description': document.getElementById(`job-description-${i}`).value
+                    });
+                }
+            }
+
+            const educationItems = [];
+            for (let i = 0; i < educationCount; i++) {
+                if (document.getElementById(`degree-${i}`)) {
+                    educationItems.push({
+                        'Degree': document.getElementById(`degree-${i}`).value,
+                        'University': document.getElementById(`university-${i}`).value,
+                        'Graduation Date': document.getElementById(`graduation-date-${i}`).value
+                    });
+                }
+            }
+
+            addSection("Personal Information", [personalInfo]);
+            addSection("Summary/Objective", [document.getElementById('summary').value]);
+            addSection("Experience", experienceItems);
+            addSection("Education", educationItems);
+
+            pdf.save("cv.pdf");
+        }
+    </script>
+</body>
+</html>
