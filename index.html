@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gen Z CV Creator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,18 +11,23 @@
             background-color: #f9f9f9;
             color: #333;
         }
+
         h1 {
             text-align: center;
             color: #007bff;
+            margin-bottom: 30px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
+
         input, textarea {
             width: 100%;
             padding: 10px;
@@ -31,99 +35,159 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            font-size: 16px;
         }
+
         input:focus, textarea:focus {
             border-color: #007bff;
             outline: none;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
         }
+
         button {
             margin-top: 10px;
-            padding: 10px 15px;
+            padding: 12px 20px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #pdf-preview {
             margin-top: 20px;
             border: 1px solid #ddd;
             padding: 10px;
             background-color: #fff;
             border-radius: 5px;
+            overflow-x: auto;
         }
+
         .guidelines {
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 15px;
             background-color: #e9f7ff;
             border-left: 5px solid #007bff;
+            border-radius: 5px;
         }
+
         .guidelines ul {
             margin: 0;
             padding-left: 20px;
         }
+
         .guidelines li {
             margin-bottom: 5px;
+            line-height: 1.5;
+        }
+
+        #downloadButton {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                margin: 15px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            input, textarea {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .guidelines {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            #pdf-preview iframe {
+                height: 300px;
+            }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <h1>Create Your CV - Designed for Gen Z</h1>
+    <h1>Gen Z CV Creator</h1>
     <div class="guidelines">
-        <strong>Guidelines to stand out:</strong>
         <ul>
-            <li>Keep it concise and focus on achievements.</li>
-            <li>Highlight your digital skills and adaptability.</li>
-            <li>Use a professional email address and up-to-date LinkedIn profile.</li>
+            <li>Fill out your personal information in the form below.</li>
+            <li>Click on "Generate Preview" to see a preview of your CV.</li>
+            <li>Once satisfied, click on "Download PDF" to save your CV.</li>
         </ul>
     </div>
-    <form id="cv-form">
+    <form id="cvForm">
         <div class="form-group">
-            <label for="name">Name <span style="color: red;">*</span></label>
-            <input type="text" id="name" placeholder="E.g., Taylor Smith">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
         </div>
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" id="address" placeholder="E.g., 123 Sunshine Blvd">
+            <input type="text" id="address" name="address">
         </div>
         <div class="form-group">
             <label for="city">City</label>
-            <input type="text" id="city" placeholder="E.g., New York">
+            <input type="text" id="city" name="city">
         </div>
         <div class="form-group">
             <label for="state">State</label>
-            <input type="text" id="state" placeholder="E.g., NY">
+            <input type="text" id="state" name="state">
         </div>
         <div class="form-group">
             <label for="zip">Zip Code</label>
-            <input type="text" id="zip" placeholder="E.g., 10001">
+            <input type="text" id="zip" name="zip">
         </div>
         <div class="form-group">
-            <label for="phone">Phone <span style="color: red;">*</span></label>
-            <input type="text" id="phone" placeholder="E.g., (555) 555-5555">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone">
         </div>
         <div class="form-group">
-            <label for="email">Email <span style="color: red;">*</span></label>
-            <input type="text" id="email" placeholder="E.g., taylor.smith@email.com">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
         </div>
         <div class="form-group">
             <label for="linkedin">LinkedIn</label>
-            <input type="text" id="linkedin" placeholder="E.g., linkedin.com/in/taylorsmith">
+            <input type="text" id="linkedin" name="linkedin">
         </div>
         <div class="form-group">
-            <label for="summary">Professional Summary</label>
-            <textarea id="summary" rows="5" placeholder="Briefly summarize your experience, skills, and what makes you unique."></textarea>
+            <label for="summary">Summary</label>
+            <textarea id="summary" name="summary"></textarea>
         </div>
         <button type="button" onclick="generatePreview()">Generate Preview</button>
-        <button type="button" id="downloadButton" style="display:none;" onclick="downloadPDF()">Download PDF</button>
     </form>
-
-    <div id="pdf-preview">
-        <p>PDF preview will appear here...</p>
-    </div>
+    <div id="pdf-preview"></div>
+    <button id="downloadButton" onclick="downloadPDF()">Download PDF</button>
 
     <script>
         let pdf;
@@ -187,7 +251,7 @@
 
             // Render PDF preview
             const previewContainer = document.getElementById('pdf-preview');
-            previewContainer.innerHTML = ''; // Clear previous preview
+            previewContainer.innerHTML = '';
             const pdfData = pdf.output('datauristring');
             const iframe = document.createElement('iframe');
             iframe.src = pdfData;
@@ -203,7 +267,7 @@
             if (pdf) {
                 pdf.save('CV.pdf');
             } else {
-                alert('Generate the preview first!');
+                alert('Please generate the preview first!');
             }
         }
     </script>
